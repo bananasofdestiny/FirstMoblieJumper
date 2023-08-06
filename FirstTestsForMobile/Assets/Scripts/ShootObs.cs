@@ -14,20 +14,28 @@ public class ShootObs : MonoBehaviour
 
     private void Start()
     {
-        Instantiate(bullet, firePoint.transform.position, Quaternion.identity);
-        
+        if (!PauseMenu.isPaused)
+        {
+            Instantiate(bullet, firePoint.transform.position, Quaternion.identity);
+
+        }
+
 
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
-
-        if (timer >= spawnInterval)
+        if (!PauseMenu.isPaused)
         {
-            // Reset the timer and execute the code
-            timer = 0.0f;
-            Instantiate(bullet,firePoint.transform.position,Quaternion.identity);
+            timer += Time.deltaTime;
+
+            if (timer >= spawnInterval)
+            {
+                // Reset the timer and execute the code
+                timer = 0.0f;
+                Instantiate(bullet, firePoint.transform.position, Quaternion.identity);
+            }
         }
+
     }
 }

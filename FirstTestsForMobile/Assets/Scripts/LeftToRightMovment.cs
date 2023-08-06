@@ -7,7 +7,11 @@ public class LeftToRightMovment : MonoBehaviour
     public float speed = 5.0f;
     public float constraintValue;
     public float constraintValueNegative;
+    public float rotationSpeed = 320f;
+
     private bool moveRight = true;
+    public bool isBlade = false;
+
 
     void Update()
     {
@@ -27,6 +31,15 @@ public class LeftToRightMovment : MonoBehaviour
                 moveRight = true;
             }
         }
+        if (isBlade)
+        {
+            RotateInCircle();
+        }
+    }
+    private void RotateInCircle()
+    {
+        // Rotate the object in a circle around its own z-axis (up-axis)
+        transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
     }
 
 }

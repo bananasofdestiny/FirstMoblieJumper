@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10f;
     public ParticleSystem deathEffect;
 
+    private PauseMenu pauseMenu;
     public float rotationSpeed = 30f; 
 
     public Rigidbody2D rb;
@@ -18,18 +19,26 @@ public class PlayerController : MonoBehaviour
     public bool imortality = false;
     public bool hasStartedRotating = false;
 
+    private void Start()
+    {
+        pauseMenu = GetComponent<PauseMenu>();
+    }
     void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (!PauseMenu.isPaused)
         {
-            hasStartedRotating = true;
+            if (Input.GetButtonDown("Jump"))
+            {
+                hasStartedRotating = true;
 
-            Jump();
+                Jump();
+            }
+            if (transform.position.y < -5f)
+            {
+                transform.position = new Vector3(transform.position.x, -4.9f, transform.position.z);
+            }
         }
-        if (transform.position.y < -5f)
-        {
-            transform.position = new Vector3(transform.position.x, -4.9f, transform.position.z);
-        }
+
     }
 
     private void Jump()
@@ -66,4 +75,6 @@ public class PlayerController : MonoBehaviour
         // Rotate the object in a circle around its own z-axis (up-axis)
         transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
     }
+
+    
 }

@@ -10,23 +10,27 @@ public class ScoreCounter : MonoBehaviour
     public GameObject player;
 
 
-    private int highestDistance = 0;
-    private int distanceTraveled = 0;
-
+    public int highestDistance = 0;
+    public int distanceTraveled = 0;
+    private void Start()
+    {
+        highestDistance = PlayerPrefs.GetInt("HighScore", 0);
+    }
     private void Update()
     {
         if (player.gameObject != null) 
         {
 
             float distanceMoved = Mathf.Abs(player.transform.position.y + 2f);
-            distanceTraveled = (int)distanceMoved;
+            if (distanceMoved > distanceTraveled) distanceTraveled = (int)distanceMoved;
 
             if (distanceTraveled > highestDistance)
             {
                 highestDistance = distanceTraveled;
+                PlayerPrefs.SetInt("HighScore", highestDistance);
             }
 
-            distanceText.text = "Score: " + highestDistance.ToString();
+            distanceText.text = "Score: " + distanceTraveled.ToString();
         }
 
     }

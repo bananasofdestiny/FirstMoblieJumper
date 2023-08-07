@@ -1,20 +1,23 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : MonoBehaviour
 {
     public float jumpForce = 10f;
     public ParticleSystem deathEffect;
-
+    public GameObject endPanel;
+    public EndMenu endMenu;
     private PauseMenu pauseMenu;
     public float rotationSpeed = 30f; 
 
     public Rigidbody2D rb;
-    [SerializeField]
-    private float respawnTimer = 3.0f;
-    [SerializeField]
-    private GameManager gameManager;
+    [SerializeField] private Camera cam;
+    //[SerializeField] private float respawnTimer = 3.0f;
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private AudioSource jumpEffect;
+    [SerializeField] private AudioSource soundDeath;
     public bool playerDied = false;
     public bool imortality = false;
     public bool hasStartedRotating = false;
@@ -25,24 +28,29 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
+        float cameraBottomY = cam.transform.position.y;
         if (!PauseMenu.isPaused)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump")|| Input.touchCount > 0)
             {
+                Jump();
                 hasStartedRotating = true;
 
-                Jump();
+                
             }
-            if (transform.position.y < -5f)
+            if (transform.position.y < -5f || transform.position.y > cameraBottomY)
             {
                 transform.position = new Vector3(transform.position.x, -4.9f, transform.position.z);
+                CallPlayerDied();
             }
         }
+        
 
     }
 
     private void Jump()
     {
+        jumpEffect.Play();
         rb.velocity = Vector2.zero;
         rb.AddForce(new Vector2(0, jumpForce));
 
@@ -55,10 +63,9 @@ public class PlayerController : MonoBehaviour
             //show high score
             if (gameManager != null)
             {
-                playerDied = true;
-                Instantiate(deathEffect,transform.position, Quaternion.identity);
-                Destroy(gameObject);
-                gameManager.Invoke("RestartGame", respawnTimer);
+                soundDeath.Play();
+                CallPlayerDied();
+
             }
         }
     }
@@ -76,5 +83,16 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
     }
 
-    
+    public void CallPlayerDied()
+    {
+        
+        playerDied = true;
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
+        gameObject.SetActive(false);
+        Destroy(gameObject);
+        endPanel.SetActive(true);
+        //EndMenu.StartGrowingEffect(endPanel.transform); // invoked??
+        endMenu.InvokeThis(endPanel.transform);
+    }
+
 }

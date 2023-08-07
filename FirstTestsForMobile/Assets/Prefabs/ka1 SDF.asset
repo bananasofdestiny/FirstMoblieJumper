@@ -2322,7 +2322,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: ka1 SDF Material
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
-  m_Parent: {fileID: 2100000, guid: e165d2db9b4f37b4a9900c751f63c125, type: 2}
+  m_Parent: {fileID: 2100000, guid: 83f92d8981f8d034a93fabe023603982, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -2339,11 +2339,14 @@ Material:
     m_Ints: []
     m_Floats:
     - _FaceDilate: 0
-    - _OutlineWidth: 0.301
+    - _GlowInner: 0.05
+    - _GlowOuter: 0.05
+    - _OutlineWidth: 0.256
     - _ScaleRatioB: 0.6770833
     - _ScaleRatioC: 0.6770833
     m_Colors:
     - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GlowColor: {r: 0, g: 1, b: 0, a: 0.5}
   m_BuildTextureStacks: []
 --- !u!28 &9092921471591657179
 Texture2D:

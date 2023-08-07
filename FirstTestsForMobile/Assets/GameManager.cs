@@ -8,8 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [Header("Mentions")]
-    [SerializeField]
-    private Rigidbody2D player;
+    [SerializeField] AudioSource restartSound;
+    [SerializeField] private Rigidbody2D player;
     private PlayerController playerController;
     public Spawner spawner;
     public TextMeshProUGUI pressToStartText;
@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        restartSound.Play();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
